@@ -1,4 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+
+import '../../../domain/blocs/counter_cubit.dart';
+import '../../common_widgets/ontap_wrapper.dart';
 
 class MainMenuView extends StatefulWidget {
   const MainMenuView({Key? key}) : super(key: key);
@@ -11,6 +15,7 @@ class MainMenuView extends StatefulWidget {
 
 class MainMenuViewState extends State<MainMenuView> {
   String tag = MainMenuView.routeName.substring(1);
+  final cubit = CounterCubit();
 
   @override
   void initState() {
@@ -39,6 +44,13 @@ class MainMenuViewState extends State<MainMenuView> {
         MediaQuery.of(context).size.width / MediaQuery.of(context).size.height <
         1;
 
+    return buildScaffold(context, isLandscape, isPortrait);
+  }
+
+  Scaffold buildScaffold(
+      BuildContext context,
+      bool Function(BuildContext context) isLandscape,
+      bool Function(BuildContext context) isPortrait) {
     return Scaffold(
       body: SafeArea(
         child: (isLandscape(context))
@@ -61,6 +73,30 @@ class MainMenuViewState extends State<MainMenuView> {
           : Container(
               height: 0,
             ),
+      floatingActionButton: Row(
+        children: [
+          OnTapWrapper(
+            widgetToWrap: Container(
+              width: 200,
+              height: 100,
+              color: Colors.deepOrange,
+            ),
+            actionsToDo: () {
+              cubit.decrement();
+            },
+          ),
+          OnTapWrapper(
+            widgetToWrap: Container(
+              width: 200,
+              height: 100,
+              color: Colors.green,
+            ),
+            actionsToDo: () {
+              cubit.increment();
+            },
+          ),
+        ],
+      ),
     );
   }
 
@@ -79,6 +115,14 @@ class MainMenuViewState extends State<MainMenuView> {
       child: Container(
         width: 200,
         color: Colors.blue,
+        child: Center(
+          child: BlocBuilder<CounterCubit, int>(
+            bloc: cubit,
+            builder: (context, count) {
+              return Text('$count');
+            },
+          ),
+        ),
       ),
     );
   }
