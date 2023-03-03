@@ -51,12 +51,16 @@ class MainMenuViewState extends State<MainMenuView> {
               )
             : Column(
                 children: [
-                  object1(),
                   object2(),
                   object3(),
                 ],
               ),
       ),
+      bottomSheet: isPortrait(context)
+          ? object1()
+          : Container(
+              height: 0,
+            ),
     );
   }
 
