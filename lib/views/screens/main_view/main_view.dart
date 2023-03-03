@@ -31,6 +31,59 @@ class MainMenuViewState extends State<MainMenuView> {
 
   @override
   Widget build(BuildContext context) {
-    return Container();
+    bool isLandscape(BuildContext context) =>
+        MediaQuery.of(context).size.width /
+            MediaQuery.of(context).size.height >=
+        1;
+    bool isPortrait(BuildContext context) =>
+        MediaQuery.of(context).size.width / MediaQuery.of(context).size.height <
+        1;
+
+    return Scaffold(
+      body: SafeArea(
+        child: (isLandscape(context))
+            ? Row(
+                children: [
+                  object1(),
+                  object2(),
+                  object3(),
+                ],
+              )
+            : Column(
+                children: [
+                  object1(),
+                  object2(),
+                  object3(),
+                ],
+              ),
+      ),
+    );
+  }
+
+  Container object1() {
+    return Container(
+      width: 200,
+      height: 100,
+      alignment: Alignment.center,
+      color: Colors.black,
+    );
+  }
+
+  Expanded object2() {
+    return Expanded(
+      flex: 2,
+      child: Container(
+        width: 200,
+        color: Colors.blue,
+      ),
+    );
+  }
+
+  Expanded object3() {
+    return Expanded(
+      child: Container(
+        color: Colors.amber,
+      ),
+    );
   }
 }
