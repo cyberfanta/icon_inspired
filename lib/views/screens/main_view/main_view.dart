@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../../../data/repositories/repository.dart';
 import '../../../domain/blocs/counter_cubit.dart';
+import '../../../tools/stamp.dart';
 import '../../common_widgets/ontap_wrapper.dart';
 
 class MainMenuView extends StatefulWidget {
@@ -83,6 +85,7 @@ class MainMenuViewState extends State<MainMenuView> {
             ),
             actionsToDo: () {
               cubit.decrement();
+              Repository.saveData("Cubit", cubit.state);
             },
           ),
           OnTapWrapper(
@@ -93,6 +96,7 @@ class MainMenuViewState extends State<MainMenuView> {
             ),
             actionsToDo: () {
               cubit.increment();
+              Repository.saveData("Cubit", cubit.state);
             },
           ),
         ],
@@ -119,7 +123,13 @@ class MainMenuViewState extends State<MainMenuView> {
           child: BlocBuilder<CounterCubit, int>(
             bloc: cubit,
             builder: (context, count) {
-              return Text('$count');
+              return OnTapWrapper(
+                widgetToWrap: Text('$count'),
+                actionsToDo: () {
+                  stamp(tag,
+                      "Repository.getData(Cubit): ${Repository.getData("Cubit")}");
+                },
+              );
             },
           ),
         ),
