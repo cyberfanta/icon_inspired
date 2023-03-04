@@ -8,45 +8,61 @@ class Repository {
   }
 
   //Save data
-  static Future<void> saveInt(String name, int value) async {
-    await prefs.setInt(name, value);
-  }
+  static Future<void> saveData(String name, Object value) async {
+    if (value is int) {
+      await prefs.setInt(name, value);
+    }
 
-  static Future<void> saveBool(String name, bool value) async {
-    await prefs.setBool(name, value);
-  }
+    if (value is bool) {
+      await prefs.setBool(name, value);
+    }
 
-  static Future<void> saveDouble(String name, double value) async {
-    await prefs.setDouble(name, value);
-  }
+    if (value is double) {
+      await prefs.setDouble(name, value);
+    }
 
-  static Future<void> saveString(String name, String value) async {
-    await prefs.setString(name, value);
-  }
+    if (value is String) {
+      await prefs.setString(name, value);
+    }
 
-  static Future<void> saveStringList(String name, List<String> value) async {
-    await prefs.setStringList(name, value);
+    if (value is List<String>) {
+      await prefs.setStringList(name, value);
+    }
+
+    await prefs.setString(name, value.toString());
   }
 
   //Get data
-  static int? getInt(String name) {
-    return prefs.getInt(name);
-  }
+  static getData(String name) async {
+    int? answer1 = prefs.getInt(name);
 
-  static bool? getBool(String name) {
-    return prefs.getBool(name);
-  }
+    if (answer1 != null) {
+      return answer1;
+    }
 
-  static double? getDouble(String name) {
-    return prefs.getDouble(name);
-  }
+    bool? answer2 = prefs.getBool(name);
 
-  static String? getString(String name) {
-    return prefs.getString(name);
-  }
+    if (answer2 != null) {
+      return answer2;
+    }
 
-  static List<String>? getStringList(String name) {
-    return prefs.getStringList(name);
+    double? answer3 = prefs.getDouble(name);
+
+    if (answer3 != null) {
+      return answer3;
+    }
+
+    String? answer4 = prefs.getString(name);
+
+    if (answer4 != null) {
+      return answer4;
+    }
+
+    List<String>? answer5 = prefs.getStringList(name);
+
+    if (answer5 != null) {
+      return answer5;
+    }
   }
 
   //Remove data
